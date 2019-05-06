@@ -1,0 +1,10 @@
+id: aws-sig-v4-policy
+name: aws-sig-v4-policy
+description: AWS Signature v4 Policy
+category: Custom
+type: custom
+resourceLevelSupported: true
+standalone: true
+requiredCharacteristics: []
+providedCharacteristics: []
+configuration: []

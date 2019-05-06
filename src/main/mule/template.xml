@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule
+  xmlns="http://www.mulesoft.org/schema/mule/core"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:http="http://www.mulesoft.org/schema/mule/http"
+  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+  xmlns:http-policy="http://www.mulesoft.org/schema/mule/http-policy"
+  xmlns:http-transform="http://www.mulesoft.org/schema/mule/http-policy-transform"
+  xmlns:awsv4auth="http://www.mulesoft.org/schema/mule/awsv4auth"
+  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+               http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+               http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+               http://www.mulesoft.org/schema/mule/http-policy http://www.mulesoft.org/schema/mule/http-policy/current/mule-http-policy.xsd
+               http://www.mulesoft.org/schema/mule/http-policy-transform http://www.mulesoft.org/schema/mule/http-policy-transform/current/mule-http-policy-transform.xsd
+               http://www.mulesoft.org/schema/mule/awsv4auth http://www.mulesoft.org/schema/mule/awsv4auth/current/mule-awsv4auth.xsd">
+
+    <http-policy:proxy name="{{{policyId}}}-custom-policy">
+    <http-policy:operation propagateMessageTransformations="true">
+      <logger level="INFO" message="BEFORE HTTP REQUEST"/>
+
+      <set-variable value="#[output application/json --- (now() &gt;&gt; &quot;UTC&quot;) as DateTime {format:&quot;yyyyMMdd'T'HHmmss'Z'&quot;}]" variableName="xAmzDate"/>
+
+      <logger level="INFO" message="#[vars.xAmzDate]"/>
+
+      <awsv4auth:get-authorization-string
+        accessKey=""
+        secretKey=""
+        regionName="us-east-1"
+        serviceName="lambda"
+        canonicalURL="/2015-03-31/functions/helloAWS/invocations/"
+        timeStamp="#[vars.xAmzDate]"
+        target="authString"
+        body="#[payload.^raw]"/>
+
+      <logger
+        level="INFO"
+        message="#[output application/json --- { &quot;Authorization&quot; : vars.authString,&quot;Content-Type&quot; : &quot;application/json&quot;,&quot;X-Amz-Date&quot; : vars.xAmzDate ++ &quot;&quot;,&quot;Host&quot;:&quot;lambda.us-east-1.amazonaws.com&quot;}]"/>
+
+      <http-transform:add-headers outputType="requester-request">
+        <http-transform:headers>#[output application/java --- { "Authorization" : vars.authString, "Content-Type" : "application/json", "X-Amz-Date" : vars.xAmzDate ++ "", "Host" : "lambda.us-east-1.amazonaws.com" } ]</http-transform:headers>
+      </http-transform:add-headers>
+
+      <!--
+      <http-transform:remove-headers>
+        <http-transform:headers>#[['x-correlation-id']]</http-transform:headers>
+      </http-transform:remove-headers>
+      -->
+
+      <http-policy:execute-next/>
+
+      <logger level="INFO" message="AFTER HTTP REQUEST"/>
+
+    </http-policy:operation>
+  </http-policy:proxy>
+</mule>
