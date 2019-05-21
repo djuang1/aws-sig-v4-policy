@@ -34,16 +34,16 @@
 
       <logger level="INFO" message="BEFORE TRANSFORM"/>
 
+      <logger level="INFO" message="#[vars.authString]"/>
+      
       <http-transform:add-headers outputType="requester-request">
-        <http-transform:headers>#[
-          output application/java 
-          --- 
+        <http-transform:headers>#[output application/json ---      
           { 
-            'Authorization' : vars.authString, 
-            'Content-Type' : 'application/json', 
-            'X-Amz-Date' : vars.xAmzDate ++ '', 
-            'Host' : 'lambda.us-east-1.amazonaws.com' 
-          } ]
+            "Authorization" : vars.authString, 
+            "Content-Type" : "application/json", 
+            "X-Amz-Date" : vars.xAmzDate ++ "", 
+            "Host" : "lambda.us-east-1.amazonaws.com"
+          }]
         </http-transform:headers>
       </http-transform:add-headers>
 

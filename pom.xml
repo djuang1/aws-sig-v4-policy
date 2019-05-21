@@ -4,7 +4,7 @@
 
   <groupId>b85b361d-0842-4b70-af37-2723c2c3ae7e</groupId>
   <artifactId>aws-sig-v4-policy</artifactId>
-  <version>1.0.25-SNAPSHOT</version>
+  <version>1.0.32-SNAPSHOT</version>
 
   <name>aws-sig-v4-policy</name>
   <description>AWS Signature v4 Policy</description>
