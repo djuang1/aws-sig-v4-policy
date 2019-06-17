@@ -20,6 +20,8 @@
 
       <set-variable value="#[output application/json --- (now() &gt;&gt; &quot;UTC&quot;) as DateTime {format:&quot;yyyyMMdd'T'HHmmss'Z'&quot;}]" variableName="xAmzDate"/>
 
+      <set-variable value="#[payload]" variableName="origPayload"/>
+
       <logger level="INFO" message="#[vars.xAmzDate]"/>
 
       <awsv4auth:get-authorization-string
@@ -27,14 +29,18 @@
         secretKey=""
         regionName="us-east-1"
         serviceName="lambda"
-        canonicalURL="/2015-03-31/functions/helloAWS/invocations/"
+        hostName="lambda.us-east-1.amazonaws.com" 
+        canonicalURI="/2015-03-31/functions/helloAWS/invocations"
         timeStamp="#[vars.xAmzDate]"
-        target="authString"
-        body="#[payload.^raw]"/>
+        body="#[payload]"/>
+
+      <set-variable value="#[payload]" variableName="authString"/>
+
+      <set-payload value="#[vars.origPayload]"/>
 
       <logger level="INFO" message="BEFORE TRANSFORM"/>
 
-      <logger level="INFO" message="#[vars.authString]"/>
+      <logger level="INFO" message="#[payload]"/>
       
       <http-transform:add-headers outputType="requester-request">
         <http-transform:headers>#[output application/json ---      
