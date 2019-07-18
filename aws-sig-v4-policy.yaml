@@ -3,8 +3,73 @@ name: aws-sig-v4-policy
 description: AWS Signature v4 Policy
 category: Custom
 type: custom
-resourceLevelSupported: true
+resourceLevelSupported: false
 standalone: true
 requiredCharacteristics: []
 providedCharacteristics: []
-configuration: []
+configuration: 
+  - description: "AWS Access Key"
+    name: "AWS Access Key"
+    propertyName: awsAccessKey
+    sensitive: false
+    type: string
+    defaultValue: ""
+    allowMultiple: false
+    optional: false
+  - description: "AWS Secret Key"
+    name: "AWS Secret Key"
+    propertyName: awsSecretKey
+    sensitive: false
+    type: string
+    defaultValue: ""
+    allowMultiple: false
+    optional: false
+  - description: "AWS Region"
+    name: "AWS Region"
+    propertyName: region
+    sensitive: false
+    type: string
+    defaultValue: "us-east-1"
+    allowMultiple: false
+    optional: false
+  - description: "AWS Service Name"
+    name: "AWS Service Name"
+    propertyName: serviceName
+    sensitive: false
+    type: string
+    defaultValue: "lambda"
+    allowMultiple: false
+    optional: false
+  - propertyName: requestType
+    name: "HTTP Request Type"
+    description: "Request type for HTTP call"
+    options:
+      - name: GET
+        value: GET
+      - name: POST
+        value: POST
+      - name: PUT
+        value: PUT
+      - name: DELETE
+        value: DELETE
+    type: radio
+    defaultValue: GET
+    optional: false
+    sensitive: false
+  - description: "AWS Host Name"
+    name: "AWS Host Name"
+    propertyName: hostName
+    sensitive: false
+    type: string
+    defaultValue: "lambda.us-east-1.amazonaws.com"
+    allowMultiple: false
+    optional: false
+  - description: "AWS Canonical URI"
+    name: "AWS Canonical URI"
+    propertyName: canonicalURI
+    sensitive: false
+    type: string
+    defaultValue: "/2015-03-31/functions/helloAWS/invocations"
+    allowMultiple: false
+    optional: false
+
