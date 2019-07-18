@@ -13,6 +13,7 @@
 
   <properties>
     <mule.maven.plugin.version>3.2.0</mule.maven.plugin.version>
+    <awsv4auth-extension.version>1.0.7</awsv4auth-extension.version>
     <org_id>b85b361d-0842-4b70-af37-2723c2c3ae7e</org_id>
     <exchange.url>https://maven.anypoint.mulesoft.com/api/v1/organizations/b85b361d-0842-4b70-af37-2723c2c3ae7e/maven</exchange.url>
   </properties>
@@ -65,7 +66,7 @@
     <dependency>
       <groupId>${org_id}</groupId>
       <artifactId>awsv4auth-extension</artifactId>
-      <version>1.0.7</version>
+      <version>${awsv4auth-extension.version}</version>
       <classifier>mule-plugin</classifier>
     </dependency>
     <dependency>
