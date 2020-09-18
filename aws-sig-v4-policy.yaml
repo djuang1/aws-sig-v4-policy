@@ -69,7 +69,7 @@ configuration:
     propertyName: canonicalURI
     sensitive: false
     type: string
-    defaultValue: "/2015-03-31/functions/helloAWS/invocations"
+    defaultValue: "/2015-03-31/functions/helloLambda/invocations"
     allowMultiple: false
     optional: false
 
