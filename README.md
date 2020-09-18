@@ -60,11 +60,11 @@ You must publish your AWS Signature Version 4 Extension to the same Anypoint Pla
 ...
 
 ```
-4.  Deploy the connector to your [Exchange using Maven](https://docs.mulesoft.com/exchange/to-publish-assets-maven):  
+4.  Deploy the policy to your [Exchange using Maven](https://docs.mulesoft.com/exchange/to-publish-assets-maven):  
 ```
 mvn clean deploy
 ```
-5.  Consume connector in Anypoint Studio by downloading from Exchange.
+5.  Apply the policy to your API through API Manager
 
 ## Updates
 
