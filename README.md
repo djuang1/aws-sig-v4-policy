@@ -69,5 +69,3 @@ mvn clean deploy
 ## Updates
 
 Last Updated September 17, 2020
-
-If you have questions or issues, e-mail Dejim Juang at dejimj@gmail.com.
